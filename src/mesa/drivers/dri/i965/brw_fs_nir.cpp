@@ -476,24 +476,6 @@ fs_visitor::nir_emit_instr(nir_instr *instr)
    }
 }
 
-static brw_reg_type
-brw_type_for_nir_type(nir_alu_type type)
-{
-   switch (type) {
-   case nir_type_unsigned:
-      return BRW_REGISTER_TYPE_UD;
-   case nir_type_bool:
-   case nir_type_int:
-      return BRW_REGISTER_TYPE_D;
-   case nir_type_float:
-      return BRW_REGISTER_TYPE_F;
-   default:
-      unreachable("unknown type");
-   }
-
-   return BRW_REGISTER_TYPE_F;
-}
-
 bool
 fs_visitor::optimize_frontfacing_ternary(nir_alu_instr *instr,
                                          const fs_reg &result)
@@ -1717,20 +1699,8 @@ fs_visitor::nir_emit_texture(const fs_builder &bld, nir_tex_instr *instr)
       }
    }
 
-   enum glsl_base_type dest_base_type;
-   switch (instr->dest_type) {
-   case nir_type_float:
-      dest_base_type = GLSL_TYPE_FLOAT;
-      break;
-   case nir_type_int:
-      dest_base_type = GLSL_TYPE_INT;
-      break;
-   case nir_type_unsigned:
-      dest_base_type = GLSL_TYPE_UINT;
-      break;
-   default:
-      unreachable("bad type");
-   }
+   enum glsl_base_type dest_base_type =
+     brw_glsl_base_type_for_nir_type (instr->dest_type);
 
    const glsl_type *dest_type =
       glsl_type::get_instance(dest_base_type, nir_tex_instr_dest_size(instr),

@@ -122,7 +122,7 @@ ir_print_visitor::unique_name(ir_variable *var)
 
    /* Do we already have a name for this variable? */
    struct hash_entry * entry =
-   	   _mesa_hash_table_search(this->printable_names, var);
+      _mesa_hash_table_search(this->printable_names, var);
 
    if (entry != NULL) {
       return (const char *) entry->data;

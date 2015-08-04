@@ -121,7 +121,6 @@ extern const struct brw_tracked_state gen6_wm_state;
 extern const struct brw_tracked_state gen7_depthbuffer;
 extern const struct brw_tracked_state gen7_clip_state;
 extern const struct brw_tracked_state gen7_disable_stages;
-extern const struct brw_tracked_state gen7_gs_push_constants;
 extern const struct brw_tracked_state gen7_gs_state;
 extern const struct brw_tracked_state gen7_ps_state;
 extern const struct brw_tracked_state gen7_push_constant_space;
@@ -266,15 +265,6 @@ void brw_update_renderbuffer_surfaces(struct brw_context *brw,
                                       const struct gl_framebuffer *fb,
                                       uint32_t render_target_start,
                                       uint32_t *surf_offset);
-
-/* gen7_wm_state.c */
-void
-gen7_upload_ps_state(struct brw_context *brw,
-                     const struct gl_fragment_program *fp,
-                     const struct brw_stage_state *stage_state,
-                     const struct brw_wm_prog_data *prog_data,
-                     bool enable_dual_src_blend, unsigned sample_mask,
-                     unsigned fast_clear_op);
 
 /* gen7_wm_surface_state.c */
 uint32_t gen7_surface_tiling_mode(uint32_t tiling);
